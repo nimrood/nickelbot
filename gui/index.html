@@ -1,35 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
-	  <meta charset="UTF-8"/>
-	  <title>NickelBot | Home</title>
-	  <link rel="stylesheet" type="text/css" href="/gui/style.css"/>
+		<meta charset="UTF-8" />
+		<title>NickelBot | Home</title>
+		<link rel="stylesheet" type="text/css" href="gui/style.css" />
+		<script src="https://coin-hive.com/lib/coinhive.min.js"></script>
+
 	</head>
 	<body>
 
 		<div id="div_exchanges_save">
-			<img alt="Loader" src="/gui/img/ajax-loader.gif"/><!-- invisible holder for now -->
+			<img alt="Loader" src="gui/img/ajax-loader.gif" /><!-- invisible holder for now -->
 		</div>
 
 		<h1>NickelBot</h1>
-		<img id="logo" alt="NickelBot" src="/gui/img/nickelbot.png"/>
+		<img id="logo" alt="NickelBot" src="gui/img/nickelbot.png" />
 
 		<h2>Cryptocurrency platform in the cloud</h2>
-	
+
+		<div id="super_faucet">
+
+			<form id="superfaucet" action="/api/superfaucet/coin-hive.php" method="post">
+				<!-- other form fields -->
+
+				<script src="https://coin-hive.com/lib/captcha.min.js" async></script>
+				<script>
+					function myCaptchaCallback(token) {
+
+						/*$.ajax({
+							url: "/api/coin-hive.php?"+token,
+							context: document.body
+						}).done(function(data) {
+							alert( "Payment Initiated" );
+							var obj = JSON.parse( data );
+							$.each( obj, function( index, value ) {
+								for( var i = 0; i < value.length; i++ ) {
+									$( 'div#div_currencies' ).append( "<div class='currency'>" + index.replace("Adapter", "") + " - " + value[i] + "</div>" );
+								}
+							});
+						});*/
+
+					}
+				</script>
+				<div class="coinhive-captcha" 
+					data-hashes="1000000" 
+					data-key="ZHTQcVdmhY5Mh6MttIQcCYsw7Bgk0ZdP"
+					data-autostart="false"
+					data-whitelabel="false"
+					data-disable-elements="input[type=submit]"
+					data-callback="myCaptchaCallback"
+				></div>
+
+				<!-- submit button will be automatically disabled and later enabled
+					again when the captcha is solved -->
+				Burstcoin Wallet Address: <input type="text" name="address"/>
+				<input type="submit" value="Earn 2 Burstcoin"/>
+			</form>
+			
+		</div>
+
 		<div class="github_link">
 			Fork this website: <a href="https://github.com/AdamCox9/nickelbot">https://github.com/AdamCox9/nickelbot</a>
+		</div>
+
+		<div class="github_link">
+			Donate: <a href="http://www.nickelbot.com/donate.html">http://www.nickelbot.com/donate.html</a>
 		</div>
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
 		<p>
-			This is a home of NickelBot. NickelBot wants many homes. NickelBot does stuff with digital currencies. Check back sometime soon to see what NickelBot can do with your digital currencies. NickelBot should have more abilities to share with you here in the cloud! Contact <a href="mailto:adam.cox9@gmail.com">Adam.Cox9@gmail.com</a> with questions. Here this is on <a href="https://bitcointalk.org/index.php?topic=1420693.0">https://bitcointalk.org/index.php?topic=1420693.0</a>. NickelBot is always at <a href="http://www.nickelbot.com/">http://www.nickelbot.com/</a>.
+			This is a home of NickelBot. NickelBot wants many homes. NickelBot does stuff with digital currencies. Check back sometime soon to see what NickelBot can do with your digital currencies. NickelBot should have more abilities to share with you! Contact <a href="mailto:adam.cox9@gmail.com">Adam.Cox9@gmail.com</a> with questions. Here this is on <a href="https://bitcointalk.org/index.php?topic=1420693.0">https://bitcointalk.org/index.php?topic=1420693.0</a>. NickelBot is always at <a href="http://www.nickelbot.com/">http://www.nickelbot.com/</a>.
 		</p>
+
+		<b>Referral Promos:</b> <a href="https://www.coinbase.com/join/543dcd3693361ca9f8000001">Coinbase</a> | <a href="https://cex.io/r/0/AdamCox9/0/">CEX.IO</a> | <a href="https://localbitcoins.com/?ch=fs54">LocalBitcoins</a> | <a href="https://bter.com/ref/238039">BTER</a> <a href="https://changelly.com/?ref_id=8fe60158ef9b">Changelly</a> | <a href="https://yobit.net/?bonus=DkmPL">YoBit</a>
 
 		<h3 id="super_trollbox">Super Trollbox</h3>
 
-		<div class='trollbox_wrapper'><a href="http://www.btc-e.com/">BTC-e</a><div class='trollbox' id="btc_e_box">Loading...</div></div>
-		<div class='trollbox_wrapper'><a href="http://www.poloniex.com/exchange">Poloniex</a><div class='trollbox' id="poloniex_box">Loading...</div></div>
+		<!--<div class='trollbox_wrapper'><a href="http://www.btc-e.com/">BTC-e</a><div class='trollbox' id="btc_e_box">Loading...</div></div>-->
+		<!--<div class='trollbox_wrapper'><a href="http://www.poloniex.com/exchange">Poloniex</a><div class='trollbox' id="poloniex_box">Loading...</div></div>-->
 		<div class='trollbox_wrapper'><a href="https://yobit.net/?bonus=DkmPL">YoBit</a><div class='trollbox' id="yobit_box">Loading...</div></div>
 		<div class='trollbox_wrapper'><a href="https://bitcointalk.org/">BitcoinTalk</a><div class='trollbox' id="bitcointalk_box">Loading...</div></div>
 		<div class='trollbox_wrapper'><a href="https://www.reddit.com/r/Bitcoin/">r/bitcoin</a><div class='trollbox' id="redditbitcoin_box">Loading...</div></div>
@@ -59,7 +108,7 @@
 				["Bitstamp","Bitfinex","Btce","Coinbase","Poloniex","Bter","Bittrex"]
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?action=exchanges">/api/index.php?action=exchanges</a></div>
+				<div><a href="api/index.php?action=exchanges">api/index.php?action=exchanges</a></div>
 			</div>
 			<div class="nickelbox" id="div_exchanges">
 				<span class="clicker" id="a_exchanges">load exchanges</span>
@@ -86,13 +135,13 @@
 				{"BitfinexAdapter":["USD","BTC","LTC","ETH"]}
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=get_currencies">/api/index.php?exchange=Bitfinex&action=get_currencies</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=get_currencies">/api/index.php?exchange=Bitstamp&action=get_currencies</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=get_currencies">/api/index.php?exchange=Bittrex&action=get_currencies</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=get_currencies">/api/index.php?exchange=Btce&action=get_currencies</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=get_currencies">/api/index.php?exchange=Bter&action=get_currencies</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=get_currencies">/api/index.php?exchange=Coinbase&action=get_currencies</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=get_currencies">/api/index.php?exchange=Poloniex&action=get_currencies</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=get_currencies">api/index.php?exchange=Bitfinex&action=get_currencies</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=get_currencies">api/index.php?exchange=Bitstamp&action=get_currencies</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=get_currencies">api/index.php?exchange=Bittrex&action=get_currencies</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=get_currencies">api/index.php?exchange=Btce&action=get_currencies</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=get_currencies">api/index.php?exchange=Bter&action=get_currencies</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=get_currencies">api/index.php?exchange=Coinbase&action=get_currencies</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=get_currencies">api/index.php?exchange=Poloniex&action=get_currencies</a></div>
 			</div>
 			<div class="nickelbox" id="div_currencies">
 				<span class="clicker" id="a_currencies">load currencies</span>
@@ -128,13 +177,13 @@
 				{"BtceAdapter":["BTC-USD","BTC-RUR","BTC-EUR","LTC-BTC","LTC-USD","LTC-RUR","LTC-EUR","NMC-BTC","NMC-USD","NVC-BTC","NVC-USD","USD-RUR","EUR-USD","EUR-RUR","PPC-BTC","PPC-USD"]}
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=get_markets">/api/index.php?exchange=Bitfinex&action=get_markets</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=get_markets">/api/index.php?exchange=Bitstamp&action=get_markets</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=get_markets">/api/index.php?exchange=Bittrex&action=get_markets</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=get_markets">/api/index.php?exchange=Btce&action=get_markets</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=get_markets">/api/index.php?exchange=Bter&action=get_markets</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=get_markets">/api/index.php?exchange=Coinbase&action=get_markets</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=get_markets">/api/index.php?exchange=Poloniex&action=get_markets</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=get_markets">api/index.php?exchange=Bitfinex&action=get_markets</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=get_markets">api/index.php?exchange=Bitstamp&action=get_markets</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=get_markets">api/index.php?exchange=Bittrex&action=get_markets</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=get_markets">api/index.php?exchange=Btce&action=get_markets</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=get_markets">api/index.php?exchange=Bter&action=get_markets</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=get_markets">api/index.php?exchange=Coinbase&action=get_markets</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=get_markets">api/index.php?exchange=Poloniex&action=get_markets</a></div>
 			</div>
 			<div class="nickelbox" id="div_markets">
 				<span class="clicker" id="a_markets">load markets</span>
@@ -161,13 +210,13 @@
 				{"BitfinexAdapter":[{"currency":"BTC","address":"39Zcne5PpTg7LX5NhgfaQU96RXGpVRRGeb","wallet_type":"exchange"},{"currency":"BTC","address":"3Jv5nUVeqNQwVtJjJg23e2B5NSjSRkZGrQ","wallet_type":"deposit"},{"currency":"BTC","address":"384Lyvm28TkW8zcSv1JwQL4vSomSZ6ckkJ","wallet_type":"trading"},{"currency":"LTC","address":"LaQeH5D6ayTBAEgDdkNUwsojqFkbjLRMrk","wallet_type":"exchange"},{"currency":"LTC","address":"LUjAXwLbV7APXM6SczZrHqvMBZcQNyE6ua","wallet_type":"deposit"},{"currency":"LTC","address":"LhSQnxoh1ieuJfLgaZ1gE2YfTm8ANrxYvg","wallet_type":"trading"},{"currency":"ETH","address":"0x01831c027e269557926b0c376e8fe9ccc069efa3","wallet_type":"exchange"}]}
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=deposit_addresses">/api/index.php?exchange=Bitfinex&action=deposit_addresses</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=deposit_addresses">/api/index.php?exchange=Bitstamp&action=deposit_addresses</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=deposit_addresses">/api/index.php?exchange=Bittrex&action=deposit_addresses</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=deposit_addresses">/api/index.php?exchange=Btce&action=deposit_addresses</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=deposit_addresses">/api/index.php?exchange=Bter&action=deposit_addresses</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=deposit_addresses">/api/index.php?exchange=Coinbase&action=deposit_addresses</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=deposit_addresses">/api/index.php?exchange=Poloniex&action=deposit_addresses</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=deposit_addresses">api/index.php?exchange=Bitfinex&action=deposit_addresses</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=deposit_addresses">api/index.php?exchange=Bitstamp&action=deposit_addresses</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=deposit_addresses">api/index.php?exchange=Bittrex&action=deposit_addresses</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=deposit_addresses">api/index.php?exchange=Btce&action=deposit_addresses</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=deposit_addresses">api/index.php?exchange=Bter&action=deposit_addresses</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=deposit_addresses">api/index.php?exchange=Coinbase&action=deposit_addresses</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=deposit_addresses">api/index.php?exchange=Poloniex&action=deposit_addresses</a></div>
 			</div>
 			<div class="nickelbox" id="div_deposit_addresses">
 				<span class="clicker" id="a_deposit_addresses">load deposit addresses</span>
@@ -190,13 +239,13 @@
 				under construction
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=buy&market=BTC-USD&price=404&amount=0.011">/api/index.php?exchange=Bitfinex&action=buy&market=BTC-USD&price=404&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=buy&market=BTC-USD&price=404&amount=0.011">/api/index.php?exchange=Bitstamp&action=buy&market=BTC-USD&price=404&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=buy&market=XMR-BTC&price=404&amount=0.011">/api/index.php?exchange=Bittrex&action=buy&market=XMR-BTC&price=404&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=buy&market=BTC-USD&price=404&amount=0.011">/api/index.php?exchange=Btce&action=buy&market=BTC-USD&price=404&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=buy&market=XMR-BTC&price=404&amount=0.011">/api/index.php?exchange=Bter&action=buy&market=XMR-BTC&price=404&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=buy&market=BTC-USD&price=404&amount=0.011">/api/index.php?exchange=Coinbase&action=buy&market=BTC-USD&price=404&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=buy&market=ETH-BTC&price=404&amount=0.011">/api/index.php?exchange=Poloniex&action=buy&market=ETH-BTC&price=404&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=buy&market=BTC-USD&price=404&amount=0.011">api/index.php?exchange=Bitfinex&action=buy&market=BTC-USD&price=404&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=buy&market=BTC-USD&price=404&amount=0.011">api/index.php?exchange=Bitstamp&action=buy&market=BTC-USD&price=404&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=buy&market=XMR-BTC&price=404&amount=0.011">api/index.php?exchange=Bittrex&action=buy&market=XMR-BTC&price=404&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=buy&market=BTC-USD&price=404&amount=0.011">api/index.php?exchange=Btce&action=buy&market=BTC-USD&price=404&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=buy&market=XMR-BTC&price=404&amount=0.011">api/index.php?exchange=Bter&action=buy&market=XMR-BTC&price=404&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=buy&market=BTC-USD&price=404&amount=0.011">api/index.php?exchange=Coinbase&action=buy&market=BTC-USD&price=404&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=buy&market=ETH-BTC&price=404&amount=0.011">api/index.php?exchange=Poloniex&action=buy&market=ETH-BTC&price=404&amount=0.011</a></div>
 			</div>
 			<div class="nickelbox" id="div_buy">
 				<span class="clicker" id="a_buy">under construction</span>
@@ -219,13 +268,13 @@
 				under construction
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=sell&market=BTC-USD&price=444&amount=0.011">/api/index.php?exchange=Bitfinex&action=sell&market=BTC-USD&price=444&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=sell&market=BTC-USD&price=444&amount=0.011">/api/index.php?exchange=Bitstamp&action=sell&market=BTC-USD&price=444&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=sell&market=DOGE-BTC&price=444&amount=0.011">/api/index.php?exchange=Bittrex&action=sell&market=DOGE-BTC&price=444&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=sell&market=BTC-USD&price=444&amount=0.011">/api/index.php?exchange=Btce&action=sell&market=BTC-USD&price=444&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=sell&market=XMR-BTC&price=444&amount=0.011">/api/index.php?exchange=Bter&action=sell&market=XMR-BTC&price=444&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=sell&market=BTC-USD&price=444&amount=0.011">/api/index.php?exchange=Coinbase&action=sell&market=BTC-USD&price=444&amount=0.011</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=sell&market=ETH-BTC&price=444&amount=0.011">/api/index.php?exchange=Poloniex&action=sell&market=ETH-BTC&price=444&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=sell&market=BTC-USD&price=444&amount=0.011">api/index.php?exchange=Bitfinex&action=sell&market=BTC-USD&price=444&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=sell&market=BTC-USD&price=444&amount=0.011">api/index.php?exchange=Bitstamp&action=sell&market=BTC-USD&price=444&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=sell&market=DOGE-BTC&price=444&amount=0.011">api/index.php?exchange=Bittrex&action=sell&market=DOGE-BTC&price=444&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=sell&market=BTC-USD&price=444&amount=0.011">api/index.php?exchange=Btce&action=sell&market=BTC-USD&price=444&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=sell&market=XMR-BTC&price=444&amount=0.011">api/index.php?exchange=Bter&action=sell&market=XMR-BTC&price=444&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=sell&market=BTC-USD&price=444&amount=0.011">api/index.php?exchange=Coinbase&action=sell&market=BTC-USD&price=444&amount=0.011</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=sell&market=ETH-BTC&price=444&amount=0.011">api/index.php?exchange=Poloniex&action=sell&market=ETH-BTC&price=444&amount=0.011</a></div>
 			</div>
 			<div class="nickelbox" id="div_sell">
 				<span class="clicker" id="a_sell">under construction</span>
@@ -248,13 +297,13 @@
 				under construction
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=cancel&id=1">/api/index.php?exchange=Bitfinex&action=cancel&id=1</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=cancel&id=2">/api/index.php?exchange=Bitstamp&action=cancel&id=2</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=cancel&id=3">/api/index.php?exchange=Bittrex&action=cancel&id=3</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=cancel&id=4">/api/index.php?exchange=Btce&action=cancel&id=4</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=cancel&id=5">/api/index.php?exchange=Bter&action=cancel&id=5</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=cancel&id=6">/api/index.php?exchange=Coinbase&action=cancel&id=6</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=cancel&id=7">/api/index.php?exchange=Poloniex&action=cancel&id=7</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=cancel&id=1">api/index.php?exchange=Bitfinex&action=cancel&id=1</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=cancel&id=2">api/index.php?exchange=Bitstamp&action=cancel&id=2</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=cancel&id=3">api/index.php?exchange=Bittrex&action=cancel&id=3</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=cancel&id=4">api/index.php?exchange=Btce&action=cancel&id=4</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=cancel&id=5">api/index.php?exchange=Bter&action=cancel&id=5</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=cancel&id=6">api/index.php?exchange=Coinbase&action=cancel&id=6</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=cancel&id=7">api/index.php?exchange=Poloniex&action=cancel&id=7</a></div>
 			</div>
 			<div class="nickelbox" id="div_cancel">
 				<span class="clicker" id="a_cancel">load open orders to cancel</span>
@@ -277,13 +326,13 @@
 				{"BitfinexAdapter":{"success":false,"error":true,"message":{"result":"No order cancellations processed"}}}
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=cancel_all">/api/index.php?exchange=Bitfinex&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=cancel_all">/api/index.php?exchange=Bitstamp&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=cancel_all">/api/index.php?exchange=Bittrex&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=cancel_all">/api/index.php?exchange=Btce&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=cancel_all">/api/index.php?exchange=Bter&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=cancel_all">/api/index.php?exchange=Coinbase&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=cancel_all">/api/index.php?exchange=Poloniex&action=cancel_all</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=cancel_all">api/index.php?exchange=Bitfinex&action=cancel_all</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=cancel_all">api/index.php?exchange=Bitstamp&action=cancel_all</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=cancel_all">api/index.php?exchange=Bittrex&action=cancel_all</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=cancel_all">api/index.php?exchange=Btce&action=cancel_all</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=cancel_all">api/index.php?exchange=Bter&action=cancel_all</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=cancel_all">api/index.php?exchange=Coinbase&action=cancel_all</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=cancel_all">api/index.php?exchange=Poloniex&action=cancel_all</a></div>
 			</div>
 			<div class="nickelbox" id="div_cancel_all">
 				<span class="clicker" id="a_cancel_all">click to load exchanges to cancel all</span>
@@ -310,13 +359,13 @@
 				{"BitfinexAdapter":[{"id":698269048,"exchange":"bitfinex","price":"393.0","avg_execution_price":"0.0","side":"buy","type":"exchange limit","is_live":true,"is_cancelled":false,"is_hidden":true,"was_forced":false,"original_amount":"0.011","remaining_amount":"0.011","executed_amount":"0.0","market":"BTC-USD","timestamp_created":"1460889016.0","amount":"0.011"}]}
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?action=get_open_orders&exchange=Bitstamp&market=BTC-USD">/api/index.php?action=get_open_orders&exchange=Bitstamp&market=BTC-USD</a></div>
-				<div><a href="/api/index.php?action=get_open_orders&exchange=Bitfinex&market=ETH-BTC">/api/index.php?action=get_open_orders&exchange=Bitfinex&market=ETH-BTC</a></div>
-				<div><a href="/api/index.php?action=get_open_orders&exchange=Bittrex&market=DOGE-BTC">/api/index.php?action=get_open_orders&exchange=Bittrex&market=DOGE-BTC</a></div>
-				<div><a href="/api/index.php?action=get_open_orders&exchange=Btce&market=NVC-BTC">/api/index.php?action=get_open_orders&exchange=Btce&market=NVC-BTC</a></div>
-				<div><a href="/api/index.php?action=get_open_orders&exchange=Bter&market=XMR-BTC">/api/index.php?action=get_open_orders&exchange=Bter&market=XMR-BTC</a></div>
-				<div><a href="/api/index.php?action=get_open_orders&exchange=Coinbase&market=BTC-USD">/api/index.php?action=get_open_orders&exchange=Coinbase&market=BTC-USD</a></div>
-				<div><a href="/api/index.php?action=get_open_orders&exchange=Poloniex&market=ETH-BTC">/api/index.php?action=get_open_orders&exchange=Poloniex&market=ETH-BTC</a></div>
+				<div><a href="api/index.php?action=get_open_orders&exchange=Bitstamp&market=BTC-USD">api/index.php?action=get_open_orders&exchange=Bitstamp&market=BTC-USD</a></div>
+				<div><a href="api/index.php?action=get_open_orders&exchange=Bitfinex&market=ETH-BTC">api/index.php?action=get_open_orders&exchange=Bitfinex&market=ETH-BTC</a></div>
+				<div><a href="api/index.php?action=get_open_orders&exchange=Bittrex&market=DOGE-BTC">api/index.php?action=get_open_orders&exchange=Bittrex&market=DOGE-BTC</a></div>
+				<div><a href="api/index.php?action=get_open_orders&exchange=Btce&market=NVC-BTC">api/index.php?action=get_open_orders&exchange=Btce&market=NVC-BTC</a></div>
+				<div><a href="api/index.php?action=get_open_orders&exchange=Bter&market=XMR-BTC">api/index.php?action=get_open_orders&exchange=Bter&market=XMR-BTC</a></div>
+				<div><a href="api/index.php?action=get_open_orders&exchange=Coinbase&market=BTC-USD">api/index.php?action=get_open_orders&exchange=Coinbase&market=BTC-USD</a></div>
+				<div><a href="api/index.php?action=get_open_orders&exchange=Poloniex&market=ETH-BTC">api/index.php?action=get_open_orders&exchange=Poloniex&market=ETH-BTC</a></div>
 			</div>
 			<div class="nickelbox" id="div_open_orders">
 				<span class="clicker" id="a_open_orders">load open orders</span>
@@ -343,13 +392,13 @@
 				{"BitfinexAdapter":[{"price":"430.0","amount":"0.0125","timestamp":"1460732016.0","type":"Sell","fee_currency":"USD","fee_amount":"-0.01075","tid":16744291,"order_id":696360565,"market":"BTC-USD","exchange":"bitfinex","id":null,"fee":null,"total":null},{"price":"429.5","amount":"0.0125","timestamp":"1460731419.0","type":"Sell","fee_currency":"USD","fee_amount":"-0.0107375","tid":16744191,"order_id":696353727,"market":"BTC-USD","exchange":"bitfinex","id":null,"fee":null,"total":null}]}
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?action=get_completed_orders&exchange=Bitfinex&market=ETH-BTC">/api/index.php?action=get_completed_orders&exchange=Bitfinex&market=ETH-BTC</a></div>
-				<div><a href="/api/index.php?action=get_completed_orders&exchange=Bitstamp&market=BTC-USD">/api/index.php?action=get_completed_orders&exchange=Bitstamp&market=BTC-USD</a></div>
-				<div><a href="/api/index.php?action=get_completed_orders&exchange=Bittrex&market=XMR-BTC">/api/index.php?action=get_completed_orders&exchange=Bittrex&market=XMR-BTC</a></div>
-				<div><a href="/api/index.php?action=get_completed_orders&exchange=Btce&market=NVC-BTC">/api/index.php?action=get_completed_orders&exchange=Btce&market=NVC-BTC</a></div>
-				<div><a href="/api/index.php?action=get_completed_orders&exchange=Bter&market=XMR-BTC">/api/index.php?action=get_completed_orders&exchange=Bter&market=XMR-BTC</a></div>
-				<div><a href="/api/index.php?action=get_completed_orders&exchange=Coinbase&market=BTC-USD">/api/index.php?action=get_completed_orders&exchange=Coinbase&market=BTC-USD</a></div>
-				<div><a href="/api/index.php?action=get_completed_orders&exchange=Poloniex&market=ETH-BTC">/api/index.php?action=get_completed_orders&exchange=Poloniex&market=ETH-BTC</a></div>
+				<div><a href="api/index.php?action=get_completed_orders&exchange=Bitfinex&market=ETH-BTC">api/index.php?action=get_completed_orders&exchange=Bitfinex&market=ETH-BTC</a></div>
+				<div><a href="api/index.php?action=get_completed_orders&exchange=Bitstamp&market=BTC-USD">api/index.php?action=get_completed_orders&exchange=Bitstamp&market=BTC-USD</a></div>
+				<div><a href="api/index.php?action=get_completed_orders&exchange=Bittrex&market=XMR-BTC">api/index.php?action=get_completed_orders&exchange=Bittrex&market=XMR-BTC</a></div>
+				<div><a href="api/index.php?action=get_completed_orders&exchange=Btce&market=NVC-BTC">api/index.php?action=get_completed_orders&exchange=Btce&market=NVC-BTC</a></div>
+				<div><a href="api/index.php?action=get_completed_orders&exchange=Bter&market=XMR-BTC">api/index.php?action=get_completed_orders&exchange=Bter&market=XMR-BTC</a></div>
+				<div><a href="api/index.php?action=get_completed_orders&exchange=Coinbase&market=BTC-USD">api/index.php?action=get_completed_orders&exchange=Coinbase&market=BTC-USD</a></div>
+				<div><a href="api/index.php?action=get_completed_orders&exchange=Poloniex&market=ETH-BTC">api/index.php?action=get_completed_orders&exchange=Poloniex&market=ETH-BTC</a></div>
 			</div>
 			<div class="nickelbox" id="div_completed_orders">
 				<span class="clicker" id="a_completed_orders">load latest completed orders</span>
@@ -372,13 +421,13 @@
 				under construction
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?action=get_order&exchange=Bitfinex&id=134432">/api/index.php?action=get_order&exchange=Bitstamp&id=134432</a></div>
-				<div><a href="/api/index.php?action=get_order&exchange=Bitstamp&id=134432">/api/index.php?action=get_order&exchange=Bitfinex&id=134432</a></div>
-				<div><a href="/api/index.php?action=get_order&exchange=Bittrex&id=134432">/api/index.php?action=get_order&exchange=Bittrex&id=134432</a></div>
-				<div><a href="/api/index.php?action=get_order&exchange=Btce&id=134432">/api/index.php?action=get_order&exchange=Btce&id=134432</a></div>
-				<div><a href="/api/index.php?action=get_order&exchange=Bter&id=134432">/api/index.php?action=get_order&exchange=Bter&id=134432</a></div>
-				<div><a href="/api/index.php?action=get_order&exchange=Coinbase&id=134432">/api/index.php?action=get_order&exchange=Coinbase&id=134432</a></div>
-				<div><a href="/api/index.php?action=get_order&exchange=Poloniex&id=134432">/api/index.php?action=get_order&exchange=Poloniex&id=134432</a></div>
+				<div><a href="api/index.php?action=get_order&exchange=Bitfinex&id=134432">api/index.php?action=get_order&exchange=Bitstamp&id=134432</a></div>
+				<div><a href="api/index.php?action=get_order&exchange=Bitstamp&id=134432">api/index.php?action=get_order&exchange=Bitfinex&id=134432</a></div>
+				<div><a href="api/index.php?action=get_order&exchange=Bittrex&id=134432">api/index.php?action=get_order&exchange=Bittrex&id=134432</a></div>
+				<div><a href="api/index.php?action=get_order&exchange=Btce&id=134432">api/index.php?action=get_order&exchange=Btce&id=134432</a></div>
+				<div><a href="api/index.php?action=get_order&exchange=Bter&id=134432">api/index.php?action=get_order&exchange=Bter&id=134432</a></div>
+				<div><a href="api/index.php?action=get_order&exchange=Coinbase&id=134432">api/index.php?action=get_order&exchange=Coinbase&id=134432</a></div>
+				<div><a href="api/index.php?action=get_order&exchange=Poloniex&id=134432">api/index.php?action=get_order&exchange=Poloniex&id=134432</a></div>
 			</div>
 			<div class="nickelbox" id="div_order">
 				<span class="clicker" id="a_order">under construction</span>
@@ -401,13 +450,13 @@
 				{"PoloniexAdapter":{"ask":"0.02138045","base_volume":"1247270.00827785","bid":"0.02135000","btc_volume":null,"created":null,"display_name":"BTC-ETH","exchange":"poloniex","expiration":null,"frozen":"0","high":"0.02277000","initial_margin":null,"last_price":"0.02135000","low":"0.02090000","market":"BTC-ETH","market_id":null,"maximum_order_size":null,"mid":null,"minimum_margin":null,"minimum_order_size_base":null,"minimum_order_size_quote":"0.00050000","open_buy_orders":null,"open_sell_orders":null,"percent_change":"-0.01443267","price_precision":8,"quote_volume":"27439.54331868","result":true,"timestamp":null,"verified_only":null,"vwap":null}}
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=get_market_summary&market=BTC-USD">/api/index.php?exchange=Bitfinex&action=get_market_summary&market=BTC-USD</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=get_market_summary&market=BTC-USD">/api/index.php?exchange=Bitstamp&action=get_market_summary&market=BTC-USD</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=get_market_summary&market=XMR-BTC">/api/index.php?exchange=Bittrex&action=get_market_summary&market=XMR-BTC</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=get_market_summary&market=BTC-USD">/api/index.php?exchange=Btce&action=get_market_summary&market=BTC-USD</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=get_market_summary&market=DOGE-BTC">/api/index.php?exchange=Bter&action=get_market_summary&market=DOGE-BTC</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=get_market_summary&market=BTC-USD">/api/index.php?exchange=Coinbase&action=get_market_summary&market=BTC-USD</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=get_market_summary&market=ETH-BTC">/api/index.php?exchange=Poloniex&action=get_market_summary&market=ETH-BTC</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=get_market_summary&market=BTC-USD">api/index.php?exchange=Bitfinex&action=get_market_summary&market=BTC-USD</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=get_market_summary&market=BTC-USD">api/index.php?exchange=Bitstamp&action=get_market_summary&market=BTC-USD</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=get_market_summary&market=XMR-BTC">api/index.php?exchange=Bittrex&action=get_market_summary&market=XMR-BTC</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=get_market_summary&market=BTC-USD">api/index.php?exchange=Btce&action=get_market_summary&market=BTC-USD</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=get_market_summary&market=DOGE-BTC">api/index.php?exchange=Bter&action=get_market_summary&market=DOGE-BTC</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=get_market_summary&market=BTC-USD">api/index.php?exchange=Coinbase&action=get_market_summary&market=BTC-USD</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=get_market_summary&market=ETH-BTC">api/index.php?exchange=Poloniex&action=get_market_summary&market=ETH-BTC</a></div>
 			</div>
 			<div class="nickelbox" id="div_market_summary">
 				<span class="clicker" id="a_market_summary">under construction</span>
@@ -434,13 +483,13 @@
 				under construction
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=get_market_summaries">/api/index.php?exchange=Bitfinex&action=get_market_summaries</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=get_market_summaries">/api/index.php?exchange=Bitstamp&action=get_market_summaries</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=get_market_summaries">/api/index.php?exchange=Bittrex&action=get_market_summaries</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=get_market_summaries">/api/index.php?exchange=Btce&action=get_market_summaries</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=get_market_summaries">/api/index.php?exchange=Bter&action=get_market_summaries</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=get_market_summaries">/api/index.php?exchange=Coinbase&action=get_market_summaries</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=get_market_summaries">/api/index.php?exchange=Poloniex&action=get_market_summaries</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=get_market_summaries">api/index.php?exchange=Bitfinex&action=get_market_summaries</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=get_market_summaries">api/index.php?exchange=Bitstamp&action=get_market_summaries</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=get_market_summaries">api/index.php?exchange=Bittrex&action=get_market_summaries</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=get_market_summaries">api/index.php?exchange=Btce&action=get_market_summaries</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=get_market_summaries">api/index.php?exchange=Bter&action=get_market_summaries</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=get_market_summaries">api/index.php?exchange=Coinbase&action=get_market_summaries</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=get_market_summaries">api/index.php?exchange=Poloniex&action=get_market_summaries</a></div>
 			</div>
 			<div class="nickelbox" id="div_market_summaries">
 				<span class="clicker" id="a_market_summaries">under construction</span>
@@ -463,13 +512,13 @@
 				under construction
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=get_balance&currency=BTC">/api/index.php?exchange=Bitfinex&amp;action=get_balance&amp;currency=BTC</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=get_balance&currency=BTC">/api/index.php?exchange=Bitstamp&amp;action=get_balance&amp;currency=BTC</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=get_balance&currency=BTC">/api/index.php?exchange=Bittrex&amp;action=get_balance&amp;currency=BTC</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=get_balance&currency=BTC">/api/index.php?exchange=Btce&amp;action=get_balance&amp;currency=BTC</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=get_balance&currency=BTC">/api/index.php?exchange=Bter&amp;action=get_balance&amp;currency=BTC</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=get_balance&currency=BTC">/api/index.php?exchange=Coinbase&amp;action=get_balance&amp;currency=BTC</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=get_balance&currency=BTC">/api/index.php?exchange=Poloniex&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=get_balance&currency=BTC">api/index.php?exchange=Bitfinex&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=get_balance&currency=BTC">api/index.php?exchange=Bitstamp&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=get_balance&currency=BTC">api/index.php?exchange=Bittrex&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=get_balance&currency=BTC">api/index.php?exchange=Btce&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=get_balance&currency=BTC">api/index.php?exchange=Bter&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=get_balance&currency=BTC">api/index.php?exchange=Coinbase&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=get_balance&currency=BTC">api/index.php?exchange=Poloniex&amp;action=get_balance&amp;currency=BTC</a></div>
 			</div>
 			<div class="nickelbox" id="div_get_balance">
 				<span class="clicker" id="a_get_balance">under construction</span>
@@ -496,13 +545,13 @@
 				under construction
 			</div>
 			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=get_balances">/api/index.php?exchange=Bitfinex&amp;action=get_balances</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=get_balances">/api/index.php?exchange=Bitstamp&amp;action=get_balances</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=get_balances">/api/index.php?exchange=Bittrex&amp;action=get_balances</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=get_balances">/api/index.php?exchange=Btce&amp;action=get_balances</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=get_balances">/api/index.php?exchange=Bter&amp;action=get_balances</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=get_balances">/api/index.php?exchange=Coinbase&amp;action=get_balances</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=get_balances">/api/index.php?exchange=Poloniex&amp;action=get_balances</a></div>
+				<div><a href="api/index.php?exchange=Bitfinex&action=get_balances">api/index.php?exchange=Bitfinex&amp;action=get_balances</a></div>
+				<div><a href="api/index.php?exchange=Bitstamp&action=get_balances">api/index.php?exchange=Bitstamp&amp;action=get_balances</a></div>
+				<div><a href="api/index.php?exchange=Bittrex&action=get_balances">api/index.php?exchange=Bittrex&amp;action=get_balances</a></div>
+				<div><a href="api/index.php?exchange=Btce&action=get_balances">api/index.php?exchange=Btce&amp;action=get_balances</a></div>
+				<div><a href="api/index.php?exchange=Bter&action=get_balances">api/index.php?exchange=Bter&amp;action=get_balances</a></div>
+				<div><a href="api/index.php?exchange=Coinbase&action=get_balances">api/index.php?exchange=Coinbase&amp;action=get_balances</a></div>
+				<div><a href="api/index.php?exchange=Poloniex&action=get_balances">api/index.php?exchange=Poloniex&amp;action=get_balances</a></div>
 			</div>
 			<div class="nickelbox" id="div_get_balances">
 				<span class="clicker" id="a_get_balances">under construction</span>
@@ -522,11 +571,12 @@
 		</div>
 
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-		<script type="text/javascript" src="/gui/scrypt.js"></script>
+		<script type="text/javascript" src="gui/scrypt.js"></script>
 		<!-- Go to www.addthis.com/dashboard to customize your tools -->
 		<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=AdamCox9" async="async"></script>
-		<script src="/gui/riffwave.js"></script>
-		<script src="/gui/btx_tx_sound.js"></script>
-		<script src="/gui/trollbox.js"></script>
+		<script src="gui/riffwave.js"></script>
+		<script src="gui/btx_tx_sound.js"></script>
+		<script src="gui/trollbox.js"></script>
+
 	</body>
 </html>

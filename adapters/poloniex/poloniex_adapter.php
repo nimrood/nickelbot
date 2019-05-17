@@ -23,7 +23,10 @@
 		}
 
 		public function withdraw( $account = "exchange", $currency = "BTC", $address = "1fsdaa...dsadf", $amount = 1 ) {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+
+			$results = $this->exch->withdraw($currency, $amount, $address);		
+
+			return $results;
 		}
 
 		public function get_currency_summary( $currency = "BTC" ) {
@@ -155,19 +158,25 @@
 		//_____Cancel all orders:
 		function cancel_all() {
 			$markets = $this->get_markets();
+			sleep(1);
 
 			$results = [];
 			foreach( $markets as $market ) {
 				$orders = $this->get_open_orders( $market );
+				sleep(1);
+
 				if( ! is_array( $orders ) ) continue;
 				if( isset( $orders['error'] ) ) {
 					array_push( $results, array( 'ERROR' => $orders['error'] ) );
 					continue;
 				}
 				foreach( $orders as $order ) {
-					if( isset( $order['id'] ) )
-						array_push( $results, $this->cancel($order['id'], array( 'market' => $market ) ) );
-					else
+					if( isset( $order['id'] ) ) {
+						$response = $this->cancel($order['id'], array( 'market' => $market ) );
+						array_push( $results, $response );
+						print_r( $results );
+						sleep(2);
+					} else
 						array_push( $results, array( 'ERROR' => array( $order ) ) );
 				}
 			}
@@ -229,9 +238,6 @@
 		}
 
 		public function get_completed_orders( $market = "BTC-USD", $limit = 100 ) {
-			if( isset( $this->completed_orders ) )
-				return $this->completed_orders;
-
 			$market = $this->unget_market_symbol( $market );
 			$orders = $this->exch->returnTradeHistory( $market );
 
@@ -304,9 +310,6 @@
 		}
 
 		public function get_balances() {
-			/*if( isset( $this->balances ) )//internal cache
-				return $this->balances;*/
-
 			$balances = $this->exch->returnCompleteBalances();
 			$response = [];
 			foreach( $balances as $key => $balance ) {
@@ -320,7 +323,7 @@
 				unset( $balance['onOrders'] );
 				unset( $balance['btcValue'] );
 
-				array_push( $response, $balance );
+				$response[$key] = $balance;
 			}
 
 			$this->balances = $response;
@@ -343,10 +346,9 @@
 		}
 
 		public function get_market_summaries() {
-			/*if( isset( $this->market_summaries ) )
-				return $this->market_summaries;*/
 			$market_summaries = $this->exch->returnTicker();
-			$this->market_summaries = [];
+			$results = [];
+
 			foreach( $market_summaries as $key => $market_summary ) {
 				$market_summary['market'] = $this->get_market_symbol( $key );
 				$market_summary['exchange'] = "poloniex";
@@ -370,15 +372,27 @@
 				$market_summary['mid'] = null;
 				$market_summary['minimum_margin'] = null;
 
-				if( strpos( $market_summary['market'], "XMR" ) !== FALSE )
-					$market_summary['minimum_order_size_quote'] = '0.01000000';
-				if( strpos( $market_summary['market'], "USDT" ) !== FALSE )
-					$market_summary['minimum_order_size_quote'] = '0.01000000';
-				if( strpos( $market_summary['market'], "BTC" ) !== FALSE )
-					$market_summary['minimum_order_size_quote'] = '0.00050000';
+				if( strpos( $market_summary['market'], "-XMR" ) !== FALSE ) {
+					$market_summary['minimum_order_size_quote'] = '0.000550';
+					$market_summary['price_precision'] = 6;
+				}
+
+				if( strpos( $market_summary['market'], "-ETH" ) !== FALSE ) {
+					$market_summary['minimum_order_size_quote'] = '0.000550';
+					$market_summary['price_precision'] = 6;
+				}
+
+				if( strpos( $market_summary['market'], "-USDT" ) !== FALSE ) {
+					$market_summary['minimum_order_size_quote'] = '0.00500';
+					$market_summary['price_precision'] = 5;
+				}
+				
+				if( strpos( $market_summary['market'], "-BTC" ) !== FALSE ) {
+					$market_summary['minimum_order_size_quote'] = '0.00011000';
+					$market_summary['price_precision'] = 8;
+				}
 
 				$market_summary['minimum_order_size_base'] = null;
-				$market_summary['price_precision'] = 8;
 				$market_summary['timestamp'] = null;
 				$market_summary['vwap'] = null;
 				$market_summary['open_buy_orders'] = null;
@@ -397,9 +411,9 @@
 
 				ksort( $market_summary );
 
-				array_push( $this->market_summaries, $market_summary );
+				array_push( $results, $market_summary );
 			}
-			return $this->market_summaries;
+			return $results;
 		}
 
 		//Return trollbox data from the exchange, otherwise get forum posts or twitter feed if must...
@@ -408,6 +422,7 @@
 		}
 
 		//Margin trading
+
 		public function margin_history() {
 			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
@@ -416,6 +431,7 @@
 		}
 		
 		//lending:
+
 		public function loan_offer() {
 			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}

@@ -1,113 +1,101 @@
 <?PHP
 
 	/*
+
 		@Author Adam Cox
 
-		This is a simple example of a bot that will make max buy and sell orders for every currency across every exchange with available balances.
-
-		A 1% gap is very large for BTC while very small for some ALTs
+		This is a simple example of a bot that will make a maximum sell order of each currency
 
 		TODO
-		 - a lot
+		 - Allow to specify certain trading pairs instead of hitting all of them
+
 	*/
 
 	function make_max_orders( $Adapters ) {
 		foreach( $Adapters as $Adapter ) {
 			echo "*** " . get_class( $Adapter ) . " ***\n";
 
+			//$Adapter->cancel_all();
+
 			//_____get the markets to loop over:
+			echo " -> getting market summaries \n";
 			$market_summaries = $Adapter->get_market_summaries();
+			sleep(3);
+
 			$num_markets = sizeof( $market_summaries );
+			echo " -> getting balances \n";
+			$balances = $Adapter->get_balances();
+			sleep(3);
 
-			$Adapter->cancel_all();
+			shuffle( $market_summaries ); // non-alphabetical!
 
-			$bal = [];
-			shuffle( $market_summaries );
 			foreach( $market_summaries as $market_summary ) {
-				if( $market_summary['frozen'] )
-					continue;
+				if( $market_summary['frozen'] ) { echo "\nfrozen\n"; continue; }
 
 				//_____get currencies/balances:
 				$market = $market_summary['market'];
 				$curs_bq = explode( "-", $market );
 				$base_cur = $curs_bq[0];
-				$quote_cur = $curs_bq[1];
-
-				if( $base_cur == "BTC" )
-					continue;
-
-				//if( ! isset( $base_bal ) ) {
-					$base_bal_arr = $Adapter->get_balance( $base_cur, array( 'type' => 'exchange' ) );
-					if( isset( $base_bal_arr['ERROR'] ) )
-						continue;
-					$base_bal = isset( $bal[ $base_cur ] ) ? $bal[ $base_cur ] : $base_bal_arr['available'];
-				//}
-				if( ! isset( $quote_bal ) ) {
-					$quote_bal_arr = $Adapter->get_balance( $quote_cur, array( 'type' => 'exchange' ) );
-					if( isset( $quote_bal_arr['ERROR'] ) )
-						continue;
-					$quote_bal = isset( $bal[ $quote_cur ] ) ? $bal[ $quote_cur ] : $quote_bal_arr['available'];
-				}
+				$quote_cur = $curs_bq[1]; //if( $quote_cur != 'XBT' && $quote_cur != 'BTC' ) continue;
+				$base_bal = isset( $balances[ $base_cur ] ) ? $balances[ $base_cur ]['available'] : 0;
+				$quote_bal = isset( $balances[ $quote_cur ] ) ? $balances[ $quote_cur ]['available'] : 0;
+				$ask = $market_summary['ask'];
+				$bid = $market_summary['bid'];
+				$min_order_base = isset( $market_summary['minimum_order_size_base'] ) ? $market_summary['minimum_order_size_base'] : null;
+				$min_order_quote = isset( $market_summary['minimum_order_size_quote'] ) ? $market_summary['minimum_order_size_quote'] : null;
+				$precision = $market_summary['price_precision'];	
+				$epsilon = 1 / pow( 10, $precision );				
+				$buy_price = bcmul( number_format( $bid, 8 ), 0.5, 8);
+				$sell_price = bcmul( number_format( $ask, 8 ), 2, 8);
+				$spread = $sell_price - $buy_price;					
 
 				echo " -> " . get_class( $Adapter ) . " \n";
-				echo " -> base currency ($base_cur) \n";
-				echo " -> base currency balance ($base_bal) \n";
-				echo " -> quote currency ($quote_cur) \n";
-				echo " -> quote currency balance ($quote_bal) \n";
-
-				//_____calculate some variables that are rather trivial:
-				$precision = $market_summary['price_precision'] + 2;								//_____significant digits - example 1: "1.12" has 2 as PP. example 2: "1.23532" has 5 as PP.
-				$epsilon = 1 / pow( 10, $precision );												//_____smallest unit of base currency that exchange recognizes: if PP is 3, then it is 0.001.
-				$buy_price = number_format( $market_summary['bid'], $precision, '.', '' );			//_____buy at same price as highest bid.
-				$sell_price = number_format( $market_summary['bid'], $precision, '.', '' );	//_____sell at same price as lowest ask.
-				$spread = $sell_price - $buy_price;													//_____difference between highest bid and lowest ask.
-
-				echo " -> precision $precision \n";
-				echo " -> epsilon $epsilon \n";
-				echo " -> buy price: $buy_price \n";
-				echo " -> sell price: $sell_price \n";
+				echo " -> $market \n";
+				echo " -> base currency: $base_cur \n";
+				echo " -> base currency balance: $base_bal \n";
+				echo " -> quote currency: $quote_cur \n";
+				echo " -> quote currency balance: $quote_bal \n";
+				echo " -> bid: $bid \n";
+				echo " -> ask: $ask \n";
+				echo " -> min order size base: $min_order_base \n";
+				echo " -> min order size quote: $min_order_quote \n";
+				echo " -> precision: $precision \n";
+				echo " -> epsilon: (min unit of base currency): $epsilon \n";
+				echo " -> buy price: " . number_format( $buy_price, 8 ) . " \n";
+				echo " -> sell price: " . number_format( $sell_price, 8 ) . " \n";
 				echo " -> spread: $spread \n";
 
-				echo " -> final formatted buy price: $buy_price \n";
-				echo " -> final formatted sell price: $sell_price \n";
+				if( number_format( $base_bal, 8 ) == 0 ) {
+					echo " -> base balance of $base_bal needs to be greated than 0, continuing \n";
+					echo "skipping\n\n";
+					continue;
+				}
 
-				/*if( floatval($buy_price) > 0 ) { //some currencies have big sell wall at 0.00000001...
-					$order_size = Utilities::get_min_order_size( null, $quote_bal / $num_markets, $epsilon, $buy_price, $precision);
-					echo " -> buying $order_size in $market for $buy_price costing " . $order_size * $buy_price . " with quote balance of $quote_bal \n";
-					if( floatval($order_size * $buy_price) > floatval($quote_bal) )
-						echo "\n\n -> quote balance of $quote_bal is too low for min buy order size of $order_size at buy price of $buy_price \n\n";
-					else {
-						$buy = $Adapter->buy( $market_summary['market'], $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
-						if( isset( $buy['message'] ) && $buy['message'] != 'MARKET_OFFLINE' ) {
-							print_r( $buy );
-							//die('test');
-						} else {
-							$bal[ $quote_cur ] = $quote_bal - $order_size * $buy_price;
-						}
-					}
-				}*/
+				$order_size = $base_bal;
+				$total_earnings = bcmul( $order_size, $sell_price, 8 );
 
-				//if( floatval($sell_price) > floatval($buy_price) ) { //just in case...
-					$order_size = $base_bal;
-					$min_order_size = Utilities::get_min_order_size( $market_summary['minimum_order_size_base'], $market_summary['minimum_order_size_quote'], $epsilon, $buy_price, $precision);
+				echo " -> *** attempt to sell $order_size $base_cur in $market for $sell_price $quote_cur earning $total_earnings $quote_cur with base balance of $base_bal\n";
 
-					if( $order_size > $min_order_size ) {
-						echo " -> selling $order_size in $market for $sell_price earning " . $order_size * $sell_price . " with base balance of $base_bal\n";
-						if( floatval($order_size) > floatval($base_bal) )
-							echo "\n\n -> base balance of $base_bal is too low for min sell order size of $order_size at sell price of $sell_price \n\n";
-						else {
-							$sell = $Adapter->sell( $market_summary['market'], $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
-							if( isset( $sell['message'] ) && $sell['message'] != 'MARKET_OFFLINE' ){
-								print_r( $sell );
-								//die('test');
-							} else {
-								$bal[ $base_cur ] = $base_bal - $order_size;
-							}
-						}
-					}
-				//}
-				echo "\n";
+				if( $total_earnings < 0.0005 ) {
+					echo " -> *** base balance of $base_bal $base_cur with total earnings of $total_earnings $quote_cur at sell price of $sell_price $quote_cur is too low\n";
+					echo "...skipping\n\n";
+					continue;
+				}
+
+				$sell = $Adapter->sell( $market, $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+				sleep(3);
+				if( isset( $sell['message'] ) ){ //error...
+					print_r( $sell );
+				} else {
+					echo " -> *** sell order appears to have been placed succesfully \n";
+					$balances[ $base_cur ]['available'] = $balances[ $base_cur ]['available'] - $order_size;
+				}
+
 			}
+
+			echo "\n -> ### fininishing buy/sell sequence\n\n";
+			sleep(3);
+
 		}
 	}
 

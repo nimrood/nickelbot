@@ -18,17 +18,6 @@
 
 		private function query($path, array $req = array(), $type = 'post')
 		{
-
-			/*echo "\n\n";
-			echo "$path";
-			echo "\n";
-			print_r( $req );
-			echo "\n";
-			echo "$type";
-			echo "\n\n";*/
-
-			usleep( 100000 ); //sleep for 1/10th of second so don't overload server...
-
 			// API settings
 			$key = $this->key;
 			
@@ -56,7 +45,7 @@
 			}
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
 			curl_setopt($ch, CURLOPT_URL, 'https://www.bitstamp.net/api/' . $path .'/');
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 			if ($type == 'post') {
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
@@ -74,8 +63,9 @@
 		
 		//Public Functions
 
-		public function ticker() {
-			return $this->query('ticker', array(), 'get');
+		public function ticker($market) {
+			$in = json_decode( file_get_contents( "https://www.bitstamp.net/api/v2/ticker/$market" ), true );
+			return $in;
 		}
 		
 		public function ticker_hour() {
@@ -149,6 +139,14 @@
 
 		public function ripple_address(){
 			return $this->query('ripple_address');
+		}
+
+		public function ltc_address(){
+			return $this->query('ltc_address');
+		}
+
+		public function eth_address(){
+			return $this->query('eth_address');
 		}
 
 	}

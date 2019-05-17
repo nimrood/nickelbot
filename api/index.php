@@ -33,6 +33,7 @@
 	require_once( "../config_safe.php" );
 
 	try {
+		die( 'UNDER MAINTENANCE' );
 		api_start();
 	} catch( Exception $e ) {
 		echo $e->getMessage() . "\n";
@@ -81,12 +82,6 @@
 		$market = isset( $_GET['market'] ) ? $_GET['market'] : "error";
 		if( $market == "error" ) return array( "error" => "market required" );
 
-		//let's not open up the trade api to the public:
-		$exchange = "Bitfinex";
-		$price = "393";
-		$amount = "0.011";
-		$market = "BTC-USD";
-
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->buy( $market, $amount, $price ) );
 	}
 	function api_sell()
@@ -102,12 +97,6 @@
 		$market = isset( $_GET['market'] ) ? $_GET['market'] : "error";
 		if( $market == "error" ) return array( "error" => "market required" );
 
-		//let's not open up the trade api to the public:
-		$exchange = "Bitfinex";
-		$price = "484";
-		$amount = "0.011";
-		$market = "BTC-USD";
-
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->sell( $market, $amount, $price ) );
 	}
 	function api_cancel()
@@ -118,6 +107,7 @@
 		$id = isset( $_GET['id'] ) ? $_GET['id'] : "error";
 		if( $exchange == "error" ) return array( "error" => "exchange required" );
 		if( $id == "error" ) return array( "error" => "id required" );
+
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->cancel( $id ) );
 	}
 	function api_cancel_all()
@@ -127,6 +117,7 @@
 
 		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
 		if( $exchange == "error" ) return array( "error" => "exchange required" );
+
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->cancel_all() );
 	}
 	function api_currencies()
@@ -161,6 +152,7 @@
 		if( $exchange == "error" ) return array( "error" => "exchange required" );
 		$currency = isset( $_GET['currency'] ) ? $_GET['currency'] : "error";
 		if( $currency == "error" ) return array( "error" => "currency required" );
+
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->get_balance( $currency ) );
 	}
 	function api_balances()
@@ -169,6 +161,7 @@
 
 		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
 		if( $exchange == "error" ) return array( "error" => "exchange required" );
+
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->get_balances() );
 	}
 	function api_market_summary()
